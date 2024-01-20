@@ -5,39 +5,36 @@ from PIL import ImageFont
 import calendar
 import time
 import requests
-import sys
-import json
-import wand
 from todoist_api_python.api import TodoistAPI
 import datetime
 from pathlib import Path
 
 
-# remember to import (epd7in5b, PILLOW, requests, wand, json, sys)
+# remember to pip install (waveshare-epaper, PILLOW, requests, todoist_api_python)
 #the epd module is not installable unless on a linux device *sigh*
 # may need SpiDev module to install EPD module
 
-#reload(sys) #EPD
-#sys.setdefaultencoding("utf-8") #EPD
+
 
 #Initialze variables for E-Ink Display dimensions
 EPD_Width = 800
 EPD_Height = 480
 
-# Intialize personal Tokens for to do list and Weather app
-TODOIST_TOKEN = "ebfb1231f31dd487e3c3b1a00cd148257bead150"
-WEATHER_TOKEN = "265e8ca8a67d09d12f595f765cda1ce8"
-
+# Intialize personal Tokens for to do list and Weather app ; Put your own personal API tokens here!
+TODOIST_TOKEN = ""
+WEATHER_TOKEN = ""
+LAT = ""
+LON = ""
 
 def main():
 
     time.sleep(5) #gives pi time to set up network connections
+
     #global variable declerations
-    global Debug_Mode; Debug_Mode = 0  #DEBUG TESTING turn to 0 if not testing features
+    global Debug_Mode; Debug_Mode = 0  #DEBUG TESTING: Draws both red and Black photos to "output" file. 
     global do_screen_update; do_screen_update = 1
     global TODOapi; TODOapi = TodoistAPI(TODOIST_TOKEN)
     global working_directory; working_directory = str(Path(__file__).absolute().parent)
-
     global epd; epd = epaper.epaper('epd7in5b_V2').EPD()
 
     if Debug_Mode == 0:
@@ -125,7 +122,7 @@ def query_weather():
     print("== pinging Weather API ==")
     while True:
         try:
-            weather_response = requests.get("https://api.openweathermap.org/data/3.0/onecall", params={"appid":WEATHER_TOKEN,"lat":"40.43", "lon":"-86.91"}).json()
+            weather_response = requests.get("https://api.openweathermap.org/data/3.0/onecall", params={"appid":WEATHER_TOKEN,"lat":LAT, "lon":LON}).json()
             break
 
         except ValueError:
@@ -257,7 +254,7 @@ def refresh_Screen():
         
         line_location += 26
         if (line_start + line_location + 28 >= 360):
-            pass
+            
             #draw additional tasks list
             draw_red.rectangle((710, line_start + 2 + line_location, 800, 380), fill = 0) #draws the rectangle for too many tasks
 
