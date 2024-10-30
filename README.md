@@ -13,7 +13,7 @@ After making accounts, you will need api keys for both of these websites, your p
 You will also need to update LAT and LON variables with each value being latitude and lontitude respectively of desired location for weather data.
 
 ### Installing
-A few modules will have to be installed before running the program. Some of these modules are only able to be installed on a raspberry pi.
+A few modules will have to be installed before running the program. Some of these modules are only able to be installed on linux OS or a raspberry pi.
 
 Below are the pip modules needed for the code.
 
